@@ -1,5 +1,6 @@
 import { createElement } from "./util";
 import { ClosableDialog } from "./closabledialog";
+import { onLangChange, t } from "./i18n";
 
 export class WhatsNewDialog extends ClosableDialog {
     private list =
@@ -91,22 +92,28 @@ export class WhatsNewDialog extends ClosableDialog {
         super();
 
         this.dialog.classList.add("dialog-whatsNew");
+        this.renderChanges();
+        onLangChange(() => this.renderChanges());
+    }
+
+    private renderChanges(): void {
+        this.innerHTML = "";
 
         let es: HTMLElement[] = [];
 
         let h1 = createElement("h1");
-        h1.innerText = "What's New...";
+        h1.innerText = t("What's New...");
         es.push(h1);
 
         for (let month in this.list) {
             let h2 = createElement("h2");
-            h2.innerText = month;
+            h2.innerText = t(month);
 
             let ul = createElement("ul");
 
             this.list[month].forEach((thing: string) => {
                 let li = createElement("li");
-                li.innerText = thing;
+                li.innerText = t(thing);
                 ul.appendChild(li);
             });
 

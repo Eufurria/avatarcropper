@@ -1,9 +1,12 @@
 import { showElement, hideElement } from "./util";
 import { EventClass } from "./eventclass";
+import { setTransientText } from "./i18n";
+
+function promptOf(overlay: HTMLElement): HTMLElement {
+    return overlay.querySelector(".dropPrompt") || overlay;
+}
 
 export class DragDrop extends EventClass {
-    private tempText: string = null;
-
     constructor(overlay: HTMLElement) {
         super();
 
@@ -24,15 +27,9 @@ export class DragDrop extends EventClass {
             e.preventDefault();
             e.stopPropagation();
 
-            if (!this.tempText) {
-                this.tempText = overlay.innerText;
-            }
-
             showElement(overlay);
-            overlay.innerText = "Drop file";
+            setTransientText(promptOf(overlay), "Drop file");
             overlay.style.zIndex = "9999";
-
-            console.log(this.tempText);
         });
 
         document.addEventListener("dragleave", (e) => {
@@ -41,9 +38,8 @@ export class DragDrop extends EventClass {
 
             if (e.target === overlay) {
                 hideElement(overlay);
-                overlay.innerText = this.tempText;
+                setTransientText(promptOf(overlay), null);
                 overlay.style.zIndex = "";
-                this.tempText = null;
                 this.emitEvent("dragleave");
             }
         });
@@ -57,9 +53,8 @@ export class DragDrop extends EventClass {
             }
 
             hideElement(overlay);
-            overlay.innerText = this.tempText;
+            setTransientText(promptOf(overlay), null);
             overlay.style.zIndex = "";
-            this.tempText = null;
         });
     }
 }

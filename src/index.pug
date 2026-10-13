@@ -70,16 +70,20 @@ body
 
   #footer
     #footerLeft
-      span  Made with &#x2764;&#xFE0F; by whisperdoll and the Steam.Design Team
+      span#footerCredit Alojado com 🧡 por
+      img.footerLogo(src="img/eufurria-logo.png" alt="Eufurria")
 
-    #footerRight
-      .linkbox
-        a#link-discord.link(href="https://discord.steam.design" target="_blank") Discord
-      .linkbox
-        #link-help.link How to Use This Site
-      .linkbox
-        #link-whatsNew.link What's New
-      .linkbox
-        a#link-feedback.link(href="https://github.com/sapic/avatarcropper" target="_blank") We're Open Source!
-      #closeFooter.linkbox
-        span.link &#x2716;
+  button#langToggle(type="button" aria-label="Mudar para inglês" data-next="en")
+    span.langFlag(aria-hidden="true")
+      svg.flag-pt(viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg")
+        rect(width="24" height="40" fill="#006600")
+        rect(x="24" width="36" height="40" fill="#FF0000")
+        circle(cx="24" cy="20" r="8" fill="#FFCC00")
+      svg.flag-en(viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg")
+        rect(width="60" height="30" fill="#012169")
+        path(d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="8")
+        path(d="M0,0 L60,30" stroke="#C8102E" stroke-width="2.6")
+        path(d="M60,0 L0,30" stroke="#C8102E" stroke-width="2.6")
+        path(d="M26,0 H34 V30 H26 Z M0,11 H60 V19 H0 Z" fill="#ffffff")
+        path(d="M28,0 H32 V30 H28 Z M0,13 H60 V17 H0 Z" fill="#C8102E")
+    span.langCode EN

@@ -1,9 +1,8 @@
 import { hideElement } from "./util";
 import { EventClass } from "./eventclass";
+import { setTransientText } from "./i18n";
 
 export class ImagePasted extends EventClass {
-    private tempText: string = null;
-
     constructor(overlay: HTMLElement) {
         super();
 
@@ -25,9 +24,8 @@ export class ImagePasted extends EventClass {
             e.stopPropagation();
             
             hideElement(overlay);
-            overlay.innerText = imgpasted.tempText;
+            setTransientText(overlay.querySelector(".dropPrompt") || overlay, null);
             overlay.style.zIndex = "";
-            imgpasted.tempText = null;
             
         };
     }

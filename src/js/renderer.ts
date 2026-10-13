@@ -11,6 +11,7 @@ import { Settings } from "./avatarcropper";
 import SuperGif from './supergif.js'
 import GIF from './gif.js'
 import { Rectangle } from "./rectangle";
+import { bindText, onLangChange, t } from "./i18n";
 
 interface CropOption {
     label: string;
@@ -27,9 +28,9 @@ export class Renderer extends ClosableDialog {
     private readonly imageElement: HTMLImageElement;
     private optionBar: HTMLElement;
     private headerElement: HTMLElement;
-    private noteElement: HTMLElement;
     private pleaseWaitElement: HTMLElement;
     private saveButton: HTMLElement;
+    private headerKey = "Rendering...";
     private loadGif: any;
     private readonly initialized: boolean = false;
     public readonly settings: Settings;
@@ -44,22 +45,19 @@ export class Renderer extends ClosableDialog {
         this.cropView = cropView;
 
         this.headerElement = createElement("h1", "header");
-        this.headerElement.innerText = this.renderingString;
+        this.setHeader(this.renderingString);
 
         this.progressBar = new FractionalProgressBar();
 
         this.imageElement = <HTMLImageElement>createElement("img", "image");
 
-        this.noteElement = createElement("div", "note");
-        this.noteElement.innerText = "Save as a Square for Discord!";
-
         this.pleaseWaitElement = createElement("div", "pleaseWait");
-        this.pleaseWaitElement.innerText = "Aborting render... please wait...";
+        bindText(this.pleaseWaitElement, "Aborting render... please wait...");
 
         this.optionBar = createElement("div", "optionBar");
 
         this.saveButton = createElement("a", "save");
-        this.saveButton.innerText = "Save";
+        bindText(this.saveButton, "Save");
         this.saveButton.addEventListener("mouseover", () => {
             (<HTMLAnchorElement>this.saveButton).href = this.imageElement.src;
         });
@@ -68,13 +66,27 @@ export class Renderer extends ClosableDialog {
             this.headerElement,
             this.progressBar,
             this.imageElement,
-            this.noteElement,
             this.pleaseWaitElement,
             this.optionBar,
             this.saveButton
         );
 
+        onLangChange(() => {
+            this.headerElement.innerText = t(this.headerKey);
+            Array.from(this.optionBar.children).forEach(child => {
+                const key = (child as HTMLElement).dataset.i18n;
+                if (key) {
+                    (child as HTMLElement).innerText = t(key);
+                }
+            });
+        });
+
         this.initialized = true;
+    }
+
+    private setHeader(key: string): void {
+        this.headerKey = key;
+        this.headerElement.innerText = t(key);
     }
 
     public render() {
@@ -290,13 +302,14 @@ export class Renderer extends ClosableDialog {
         this.progressBar.hide();
         showElement(this.optionBar);
         showElement(this.saveButton);
-        this.headerElement.innerText = this.renderedString;
+        this.setHeader(this.renderedString);
         this.optionBar.innerHTML = "";
         let firstButton: HTMLElement;
 
         cropOptions.forEach((option, i) => {
             let b = createElement("button", "option");
-            b.innerText = option.label;
+            b.dataset.i18n = option.label;
+            b.innerText = t(option.label);
             (<any>b).url = option.url;
             b.addEventListener("click", () => {
                 this.imageElement.src = option.url;
@@ -327,7 +340,7 @@ export class Renderer extends ClosableDialog {
     public show() {
         this.progressBar.show();
         this.progressBar.reset();
-        this.headerElement.innerText = this.renderingString;
+        this.setHeader(this.renderingString);
         hideElement(this.optionBar);
         hideElement(this.saveButton);
         hideElement(this.pleaseWaitElement);

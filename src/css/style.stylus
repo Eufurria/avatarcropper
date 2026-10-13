@@ -25,11 +25,88 @@ body, .bigOverlay
     height 100%
     font-size 3em
     color white
-    white-space nowrap
+    white-space normal
+    padding 0 24px
+    box-sizing border-box
     display flex
     align-items center
     justify-content center
     height calc(100% - 40px)
+
+    .dropLogo
+        position absolute
+        left 50%
+        top 46%
+        width min(78vmin, 680px)
+        aspect-ratio 1
+        transform translate(-50%, -50%)
+        pointer-events none
+        z-index 0
+        overflow visible
+
+        svg
+            position absolute
+            inset 0
+            width 100%
+            height 100%
+            overflow visible
+
+        .traceSvg path
+            fill none
+            stroke rgba(255, 255, 255, 0.045)
+            stroke-width 1.15
+            stroke-linejoin round
+            stroke-linecap round
+
+        .fiberSvg
+            --sweep 200%
+            mask-image linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 22%, rgba(255, 255, 255, 0.45) 42%, white 50%, rgba(255, 255, 255, 0.45) 58%, rgba(255, 255, 255, 0.03) 78%, transparent 100%)
+            mask-mode alpha
+            mask-size 200% 100%
+            mask-repeat no-repeat
+            mask-position var(--sweep) 0%
+            -webkit-mask-image linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 22%, rgba(255, 255, 255, 0.45) 42%, white 50%, rgba(255, 255, 255, 0.45) 58%, rgba(255, 255, 255, 0.03) 78%, transparent 100%)
+            -webkit-mask-size 200% 100%
+            -webkit-mask-repeat no-repeat
+            -webkit-mask-position var(--sweep) 0%
+
+            &.is-sweeping
+                animation lightPass 7.5s ease-in-out 1 forwards
+
+        .fiberSvg path
+            fill none
+            stroke rgba(255, 255, 255, 0.9)
+            stroke-width 3.2
+            stroke-linejoin round
+            stroke-linecap round
+            filter blur(1.2px) drop-shadow(0 0 5px rgba(255, 255, 255, 0.35))
+
+    .dropPrompt
+        position absolute
+        left 50%
+        top 50%
+        transform translate(-50%, -50%)
+        z-index 1
+        pointer-events none
+        white-space pre-line
+        line-height 1.2
+        text-align center
+        text-shadow 0 0 18px #12151a, 0 2px 8px #12151a
+
+@property --sweep
+    syntax '<percentage>'
+    inherits false
+    initial-value 200%
+
+@keyframes lightPass
+    from
+        --sweep -100%
+        mask-position -100% 0%
+        -webkit-mask-position -100% 0%
+    to
+        --sweep 200%
+        mask-position 200% 0%
+        -webkit-mask-position 200% 0%
 
 .dialog-backdrop
     background-color rgba(0, 0, 0, 0.85)
@@ -216,6 +293,9 @@ body, .bigOverlay
         font-weight normal
         font-size 32px
 
+    .save
+        margin-top 18px
+
 .dialog-render .option
     background #08090b
     color #fff
@@ -315,28 +395,18 @@ body, .bigOverlay
         position absolute
         top 0
         margin-left 12px
+        display flex
+        align-items center
+        gap 8px
 
-    #footerRight
-        position absolute
-        right 0
-        top 0
+        #footerCredit
+            top 0
 
-        & > *
-            margin-right 12px
-
-    #closeFooter
-        cursor pointer
-
-    .linkbox
-        background-color #08090b
-        padding 0 10px
-        max-height 30px
-        border-radius 5px
-        top 5px
-        transition all 0.25s ease
-
-        &:hover
-            background-color #1c2129
+        .footerLogo
+            height 16px
+            width auto
+            top 2px
+            flex-shrink 0
 
     .link
         text-decoration none
@@ -471,6 +541,10 @@ body, .bigOverlay
     width 48px
     float right
     background-color #08090b
+
+.menu .item.zoomBar > button.zoomFit
+    width auto
+    padding 0 10px
 
 .menu .item.zoomBar > button:hover, .menu .item > button.zoomBar > button:hover
     background #1c2129
@@ -717,26 +791,63 @@ body, .bigOverlay
         .save
             margin-bottom 8px
 
-@media (max-width 940px)
-    #link-whatsNew
-        display none
+#langToggle
+    position fixed
+    z-index 1100
+    right 16px
+    bottom 52px
+    height 42px
+    padding 0 14px 0 10px
+    margin 0
+    border none
+    border-radius 999px
+    background #ffc345
+    color #12151a
+    font-family Source Sans Pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif
+    font-size 14px
+    font-weight 700
+    letter-spacing 0.04em
+    line-height 1
+    cursor pointer
+    box-shadow none
+    display flex
+    align-items center
+    gap 8px
 
-@media (max-width 770px)
-    #link-discord
-        display none
+    .langFlag
+        width 32px
+        height 18px
+        border-radius 2px
+        overflow hidden
+        display flex
+        align-items center
+        justify-content center
+        flex-shrink 0
 
-@media (max-width 700px)
-    #link-help
-        display none
+        svg
+            display none
+            flex-shrink 0
 
-@media (max-width 570px)
-    #footerLeft
-        display none
+        .flag-pt
+            width 27px
+            height 18px
 
-@media (max-width 450px)
-    #footer
-        display none
+        .flag-en
+            width 32px
+            height 16px
 
-@media (max-width 375px)
-    #footer
-        display none
+    &[data-next="pt"] .flag-pt
+        display block
+
+    &[data-next="en"] .flag-en
+        display block
+
+    .langCode
+        line-height 1
+
+    &:hover
+        background #ffd56a
+
+    &:focus-visible
+        outline 2px solid white
+        outline-offset 2px

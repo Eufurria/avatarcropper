@@ -6,6 +6,7 @@ import { InputDialog } from "./inputdialog";
 import { createElement, array_last, array_remove, createOptionElement } from "./util";
 import { LabelSlider } from "./labeledslider";
 import { AvatarCropper } from "./avatarcropper";
+import { bindText, onLangChange, t } from "./i18n";
 
 // what fucked up design pattern is this //
 export class GradientEditButton extends Widget {
@@ -66,18 +67,29 @@ class GradientEditDialog extends InputDialog<GradientInfo> {
         let presetRow = createElement("div", "row");
 
         let presetLabel = createElement("span", "label");
-        presetLabel.innerText = "Preset:";
+        bindText(presetLabel, "Preset:");
         presetRow.appendChild(presetLabel);
 
         let presetSelect = createElement("select") as HTMLSelectElement;
-        presetSelect.add(createOptionElement("Select one...", ""));
+        presetSelect.add(createOptionElement(t("Select one..."), ""));
         AvatarCropper.settings.borderPresets.forEach((preset) => {
-            presetSelect.add(createOptionElement(preset.name, JSON.stringify(preset)));
+            presetSelect.add(createOptionElement(t(preset.name), JSON.stringify(preset)));
+        });
+        onLangChange(() => {
+            if (presetSelect.options.length) {
+                presetSelect.options[0].innerText = t("Select one...");
+            }
+            AvatarCropper.settings.borderPresets.forEach((preset, i) => {
+                const opt = presetSelect.options[i + 1];
+                if (opt) {
+                    opt.innerText = t(preset.name);
+                }
+            });
         });
         presetRow.appendChild(presetSelect);
 
         let load = createElement("button");
-        load.innerText = "Load this preset";
+        bindText(load, "Load this preset");
         load.addEventListener("click", () => {
             if (presetSelect.value) {
                 this.gradientInfo = JSON.parse(presetSelect.value);
@@ -88,29 +100,29 @@ class GradientEditDialog extends InputDialog<GradientInfo> {
         presetRow.appendChild(load);
 
         let overwrite = createElement("button");
-        overwrite.innerText = "Overwrite this preset";
+        bindText(overwrite, "Overwrite this preset");
         overwrite.addEventListener("click", () => {
             if (presetSelect.value) {
                 AvatarCropper.settings.borderPresets[presetSelect.selectedIndex - 1] = this.gradientInfo;
                 presetSelect.selectedOptions[0].value = JSON.stringify(this.gradientInfo);
                 AvatarCropper.saveSettings();
             }  else {
-                alert("Please select a valid preset or save as new preset.");
+                alert(t("Please select a valid preset or save as new preset."));
             }
         });
         presetRow.appendChild(overwrite);
 
         let saveNew = createElement("button");
-        saveNew.innerText = "Save as new preset";
+        bindText(saveNew, "Save as new preset");
         saveNew.addEventListener("click", () => {
-            let name = prompt("Name the new preset:");
+            let name = prompt(t("Name the new preset:"));
             if (name === null) {
                 // cancelled
             } else if (!name) {
-                alert("That name is invalid.");
+                alert(t("That name is invalid."));
             } else {
                 if (AvatarCropper.settings.borderPresets.some(preset => preset.name.toLowerCase() === name.toLowerCase())) {
-                    alert("That name is already taken.");
+                    alert(t("That name is already taken."));
                 } else {
                     this.gradientInfo.name = name;
                     AvatarCropper.settings.borderPresets.push(this.gradientInfo);
@@ -123,9 +135,9 @@ class GradientEditDialog extends InputDialog<GradientInfo> {
         presetRow.appendChild(saveNew);
 
         let deletePreset = createElement("button");
-        deletePreset.innerText = "Delete this preset";
+        bindText(deletePreset, "Delete this preset");
         deletePreset.addEventListener("click", () => {
-            if (presetSelect.value && confirm("Are you sure you want to delete this preset?")) {
+            if (presetSelect.value && confirm(t("Are you sure you want to delete this preset?"))) {
                 let index = presetSelect.selectedIndex - 1;
                 AvatarCropper.settings.borderPresets.splice(index, 1);
                 AvatarCropper.saveSettings();
@@ -159,21 +171,21 @@ class GradientEditDialog extends InputDialog<GradientInfo> {
         let buttonRow = createElement("div", "row");
 
         let add = createElement("button");
-        add.innerText = "Add stop";
+        bindText(add, "Add stop");
         add.addEventListener("click", () => {
             this.gradientSlider.addStop();
         });
         buttonRow.appendChild(add);
 
         let remove = createElement("button");
-        remove.innerText = "Remove stop";
+        bindText(remove, "Remove stop");
         remove.addEventListener("click", () => {
             this.gradientSlider.removeStop();
         });
         buttonRow.appendChild(remove);
 
         let equidistant = createElement("button");
-        equidistant.innerText = "Make stops equidistant";
+        bindText(equidistant, "Make stops equidistant");
         equidistant.addEventListener("click", () => {
             this.gradientSlider.makeEquidistant();
         });
@@ -194,14 +206,14 @@ class GradientEditDialog extends InputDialog<GradientInfo> {
         let saveRow = createElement("div", "row");
         
         let ok = createElement("button", "ok");
-        ok.innerText = "OK";
+        bindText(ok, "OK");
         ok.addEventListener("click", () => {
             this.emitEvent("return", this.gradientInfo);
             this.hide();
         });
 
         let cancel = createElement("button", "cancel");
-        cancel.innerText = "Cancel";
+        bindText(cancel, "Cancel");
         cancel.addEventListener("click", () => {
             this.hide();
         });

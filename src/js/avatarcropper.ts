@@ -20,6 +20,8 @@ import { KeyManager } from './keymanager'
 import { Border, GradientInfo } from './borders'
 import { Canvas } from './canvas'
 import { GradientEditButton } from './gradientedit'
+import { bindText, onLangChange, t } from './i18n'
+import { bindDropSweep, dropLogoSvg } from './droplogo'
 
 export interface Settings {
     previewSizes: number[]
@@ -46,14 +48,12 @@ export class AvatarCropper extends Widget {
     private maskOutlineButton: HTMLElement
     private bannerOutlineButton: HTMLElement
     private guidesButton: HTMLElement
-    private toggleMenuButton: HTMLElement
     private flipHButton: HTMLElement
     private flipVButton: HTMLElement
     private antialiasButton: HTMLElement
     private textOverlay: HTMLLabelElement
     private borderSelect: HTMLSelectElement;
 
-    private menuToggle: boolean = true
     private firstOpened: boolean = false
 
     public static readonly settings: Settings = {
@@ -112,7 +112,9 @@ export class AvatarCropper extends Widget {
         this.textOverlay = <HTMLLabelElement>(
             createElement('label', 'bigOverlay')
         )
-        this.textOverlay.innerText = `Drag a File Here\nOr Click to Select`
+        this.textOverlay.innerHTML = dropLogoSvg + '<span class="dropPrompt"></span>'
+        bindDropSweep()
+        bindText(this.textOverlay.querySelector('.dropPrompt'), 'Drag a File Here\nOr Click to Select')
         this.textOverlay.style.cursor = 'pointer'
         this.textOverlay.style.textAlign = 'center'
         this.textOverlay.setAttribute('for', 'openInput')
@@ -138,7 +140,7 @@ export class AvatarCropper extends Widget {
 
         if (getIEVersion() !== false && !AvatarCropper.settings.dismissedIE) {
             window.alert(
-                "hey so your browser isn't really supported ... things should still work but they will be slower/ugly due to how internet explorer/edge function (They don't conform to web standards). i'd recommend switching to firefox or chrome!! but you don't have to if you don't want to. this is the only time you'll see this message unless u clear ur cache or something. ok bye",
+                t("hey so your browser isn't really supported ... things should still work but they will be slower/ugly due to how internet explorer/edge function (They don't conform to web standards). i'd recommend switching to firefox or chrome!! but you don't have to if you don't want to. this is the only time you'll see this message unless u clear ur cache or something. ok bye"),
             )
 
             AvatarCropper.settings.dismissedIE = true
@@ -173,7 +175,7 @@ export class AvatarCropper extends Widget {
 
         // create render button //
         let render = createElement('button', 'item render show')
-        render.innerText = 'Download'
+        bindText(render, 'Download')
         render.addEventListener('click', this.renderCroppedImage.bind(this))
         this.menu.appendChild(render)
 
@@ -191,27 +193,17 @@ export class AvatarCropper extends Widget {
             }
         })
 
-        this.openFileLabel = createElement('label', 'open half item show lefthalf')
-        this.openFileLabel.innerText = 'Open File...'
+        this.openFileLabel = createElement('label', 'open item show')
+        let openFileText = createElement('span')
+        bindText(openFileText, 'Open File...')
+        this.openFileLabel.appendChild(openFileText)
         this.openFileLabel.appendChild(openFile)
         this.menu.appendChild(this.openFileLabel)
 
-        this.toggleMenuButton = createElement('button', 'half item show righthalf')
-        this.toggleMenuButton.setAttribute('uptext', 'Collapse Menu')
-        this.toggleMenuButton.setAttribute('downtext', '▼')
-        this.toggleMenuButton.innerText = this.toggleMenuButton.getAttribute(
-            'uptext',
-        )
-        this.toggleMenuButton.addEventListener(
-            'click',
-            this.toggleMenu.bind(this),
-        )
-        this.menu.appendChild(this.toggleMenuButton)
-
         let circle = createElement('button', 'open item half shapeToggle lefthalf')
         let square = createElement('button', 'open item half shapeToggle righthalf')
-        circle.innerText = 'Circle'
-        square.innerText = 'Squaré'
+        bindText(circle, 'Circle')
+        bindText(square, 'Square')
         circle.classList.toggle("toggled", AvatarCropper.settings.previewMode === "circle");
         square.classList.toggle("toggled", AvatarCropper.settings.previewMode === "square");
         circle.addEventListener('click', () => {
@@ -232,7 +224,7 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(square)
 
         this.bannerOutlineButton = createElement('button', 'item')
-        this.bannerOutlineButton.innerText = 'Discord Banner Guidelines'
+        bindText(this.bannerOutlineButton, 'Discord Banner Guidelines')
         this.bannerOutlineButton.addEventListener('click',
             this.toggleBannerOutline.bind(this)
         )
@@ -240,7 +232,7 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(this.bannerOutlineButton)
 
         this.maskOutlineButton = createElement('button', 'item')
-        this.maskOutlineButton.innerText = 'Avatar Guidelines'
+        bindText(this.maskOutlineButton, 'Avatar Guidelines')
         this.maskOutlineButton.addEventListener(
             'click',
             this.toggleMaskOutline.bind(this, true),
@@ -263,7 +255,7 @@ export class AvatarCropper extends Widget {
 
         let zoomBar = createElement('div', 'item zoomBar zoomLabel')
         let zoomLabel = createElement('div', 'zoomLabel zoomText')
-        zoomLabel.innerText = 'Zoom:'
+        bindText(zoomLabel, 'Zoom:')
         zoomBar.appendChild(zoomLabel)
         let zoomOut = createElement('button', 'zoomOut')
         zoomOut.innerText = '-'
@@ -272,7 +264,7 @@ export class AvatarCropper extends Widget {
         zoomIn.innerText = '+'
         zoomIn.addEventListener('click', () => this.cropView.zoomIn())
         let zoomFit = createElement('button', 'zoomFit')
-        zoomFit.innerText = 'Fit'
+        bindText(zoomFit, 'Fit')
         zoomFit.addEventListener('click', () => this.cropView.zoomFit())
         zoomBar.appendChild(zoomFit)
         zoomBar.appendChild(zoomIn)
@@ -299,7 +291,7 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(rSlider.container)
 
         this.flipHButton = createElement('button', 'half item lefthalf')
-        this.flipHButton.innerText = 'Flip Horiz.'
+        bindText(this.flipHButton, 'Flip Horiz.')
         this.flipHButton.addEventListener(
             'click',
             this.flipHorizontal.bind(this),
@@ -307,18 +299,18 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(this.flipHButton)
 
         this.flipVButton = createElement('button', 'half item righthalf')
-        this.flipVButton.innerText = 'Flip Vertical'
+        bindText(this.flipVButton, 'Flip Vertical')
         this.flipVButton.addEventListener('click', this.flipVertical.bind(this))
         this.menu.appendChild(this.flipVButton)
 
 
         let addPreview = createElement('button', 'half item lefthalf')
-        addPreview.innerText = 'Add Preview'
+        bindText(addPreview, 'Add Preview')
         addPreview.addEventListener('click', this.promptAddPreview.bind(this))
         this.menu.appendChild(addPreview)
 
         this.guidesButton = createElement('button', 'half item righthalf')
-        this.guidesButton.innerText = 'Guidelines'
+        bindText(this.guidesButton, 'Guidelines')
         this.guidesButton.addEventListener(
             'click',
             this.toggleGuides.bind(this, true),
@@ -327,12 +319,12 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(this.guidesButton)
 
         let centerCropArea = createElement('button', 'half item lefthalf')
-        centerCropArea.innerText = 'Center'
+        bindText(centerCropArea, 'Center')
         centerCropArea.addEventListener('click', this.centerCropArea.bind(this))
         this.menu.appendChild(centerCropArea)
         
         this.antialiasButton = createElement('button', 'half item righthalf')
-        this.antialiasButton.innerText = 'Antialias'
+        bindText(this.antialiasButton, 'Antialias')
         this.antialiasButton.addEventListener('click', () => {
             this.cropView.antialias = !this.cropView.antialias
         })
@@ -342,12 +334,12 @@ export class AvatarCropper extends Widget {
         this.menu.appendChild(this.antialiasButton)
 
         let setCropSize = createElement('button', 'half item lefthalf')
-        setCropSize.innerText = 'Set Size'
+        bindText(setCropSize, 'Set Size')
         setCropSize.addEventListener('click', this.setCropSize.bind(this))
         this.menu.appendChild(setCropSize)
 
         let lock = createElement('button', 'half item righthalf')
-        lock.innerText = 'Lock Center During Resize'
+        bindText(lock, 'Lock Center During Resize')
         lock.addEventListener('click', this.toggleResizeLock.bind(this))
         this.menu.appendChild(lock)
         GlobalEvents.on('resizelockchange', () => {
@@ -370,15 +362,31 @@ export class AvatarCropper extends Widget {
                 this.borderSelect.options.remove(0);
             }
 
-            this.borderSelect.add(createOptionElement("No Border", "none"));
-            this.borderSelect.add(createOptionElement("Solid Border", "solid"));
+            this.borderSelect.add(createOptionElement(t("No Border"), "none"));
+            this.borderSelect.add(createOptionElement(t("Solid Border"), "solid"));
             AvatarCropper.settings.borderPresets.forEach((preset) => {
-                this.borderSelect.add(createOptionElement(preset.name, JSON.stringify(preset)));
+                this.borderSelect.add(createOptionElement(t(preset.name), JSON.stringify(preset)));
             });
-            this.borderSelect.add(createOptionElement("Custom Gradient Border", "gradient"));
+            this.borderSelect.add(createOptionElement(t("Custom Gradient Border"), "gradient"));
         };
 
         populateBorder();
+        onLangChange(() => {
+            const options = this.borderSelect.options;
+            if (!options.length) {
+                return;
+            }
+            options[0].innerText = t("No Border");
+            options[1].innerText = t("Solid Border");
+            const presets = AvatarCropper.settings.borderPresets;
+            for (let i = 0; i < presets.length; i++) {
+                const opt = options[i + 2];
+                if (opt) {
+                    opt.innerText = t(presets[i].name);
+                }
+            }
+            options[options.length - 1].innerText = t("Custom Gradient Border");
+        });
 
         let borderSolidEdit = createElement("input", "item borderEdit") as HTMLInputElement;
         borderSolidEdit.type = "color";
@@ -455,18 +463,15 @@ export class AvatarCropper extends Widget {
     }
 
     private setCropSize(): void {
-        let promptStr =
-            'The Current Size is ' +
-            this.cropView.innerSize.x.toString() +
-            'x' +
-            this.cropView.innerSize.y.toString() +
-            '\n' +
-            'The Current Crop Area is ' +
-            this.cropView.cropArea.width +
-            'x' +
-            this.cropView.cropArea.height +
-            '\n' +
-            'Enter in a size either by specifying a number (like 64) or a percentage of width (50%w) or height (50%h)'
+        let promptStr = t(
+            'The Current Size is {x}x{y}\nThe Current Crop Area is {w}x{h}\nEnter in a size either by specifying a number (like 64) or a percentage of width (50%w) or height (50%h)',
+            {
+                x: this.cropView.innerSize.x.toString(),
+                y: this.cropView.innerSize.y.toString(),
+                w: this.cropView.cropArea.width,
+                h: this.cropView.cropArea.height,
+            },
+        )
 
         let sizeStr = window.prompt(promptStr)
         if (sizeStr === null || isNaN(parseInt(sizeStr))) {
@@ -488,42 +493,6 @@ export class AvatarCropper extends Widget {
         AvatarCropper.settings.resizeLock = !AvatarCropper.settings.resizeLock
         AvatarCropper.saveSettings();
         GlobalEvents.emitEvent('resizelockchange')
-    }
-
-    private toggleMenu(): void {
-        if (this.menuToggle) {
-            // showing, need to hide //
-            Array.from(this.menu.children).forEach(child => {
-                if (!child.classList.contains('show')) {
-                    (<HTMLElement>child).style.display = 'none';
-                }
-            });
-
-            this.toggleMenuButton.classList.add('toggled')
-            this.toggleMenuButton.innerText = this.toggleMenuButton.getAttribute(
-                'downtext',
-            )
-        } else {
-            Array.from(this.menu.children).forEach(child => {
-                (<HTMLElement>child).style.display = '';
-            });
-
-            hideElement(document.querySelector("input.borderEdit"));
-            hideElement(document.querySelector("canvas.borderEdit"));
-
-            if (this.borderSelect.value === "solid") {
-                showElement(document.querySelector("input.borderEdit"));
-            } else if (this.borderSelect.value === "gradient") {
-                showElement(document.querySelector("canvas.borderEdit"));
-            }
-
-            this.toggleMenuButton.classList.remove('toggled')
-            this.toggleMenuButton.innerText = this.toggleMenuButton.getAttribute(
-                'uptext',
-            )
-        }
-
-        this.menuToggle = !this.menuToggle
     }
 
     private renderCroppedImage(): void {
@@ -595,7 +564,7 @@ export class AvatarCropper extends Widget {
 
     private promptAddPreview(): void {
         let sizeStr = window.prompt(
-            'Enter a Custom Size\nDefault sizes are: 30, 40, 64, and 128.\nNote: 30 will come with a Discord online indicator.',
+            t('Enter a Custom Size\nDefault sizes are: 30, 40, 64, and 128.\nNote: 30 will come with a Discord online indicator.'),
         )
 
         if (sizeStr === null) {
@@ -606,7 +575,7 @@ export class AvatarCropper extends Widget {
         let size = parseInt(sizeStr)
 
         if (isNaN(size) || size <= 0) {
-            alert("Please, dear god, enter a size above 0...")
+            alert(t('Please, dear god, enter a size above 0...'))
         } else {
             this.previews.addPreviewSize(new Point(size)) // emits sizeArrayChange event which changes settings so dw
         }
