@@ -21,21 +21,14 @@ function wireLanguageToggle() {
     }
 
     const code = langBtn.querySelector('.langCode')
-    const flagPt = langBtn.querySelector<HTMLElement>('.flag-pt')
-    const flagEn = langBtn.querySelector<HTMLElement>('.flag-en')
 
     const apply = () => {
-        const toEnglish = getLang() === 'pt'
+        const next = getLang() === 'pt' ? 'en' : 'pt'
+        langBtn.dataset.next = next
         if (code) {
-            code.textContent = toEnglish ? 'EN' : 'PT'
+            code.textContent = next === 'en' ? 'EN' : 'PT'
         }
-        if (flagPt) {
-            flagPt.hidden = toEnglish
-        }
-        if (flagEn) {
-            flagEn.hidden = !toEnglish
-        }
-        const label = toEnglish ? 'Mudar para inglês' : 'Switch to Portuguese'
+        const label = next === 'en' ? 'Mudar para inglês' : 'Switch to Portuguese'
         langBtn.setAttribute('aria-label', label)
         langBtn.setAttribute('title', label)
     }

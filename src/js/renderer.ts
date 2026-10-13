@@ -28,7 +28,6 @@ export class Renderer extends ClosableDialog {
     private readonly imageElement: HTMLImageElement;
     private optionBar: HTMLElement;
     private headerElement: HTMLElement;
-    private noteElement: HTMLElement;
     private pleaseWaitElement: HTMLElement;
     private saveButton: HTMLElement;
     private headerKey = "Rendering...";
@@ -52,9 +51,6 @@ export class Renderer extends ClosableDialog {
 
         this.imageElement = <HTMLImageElement>createElement("img", "image");
 
-        this.noteElement = createElement("div", "note");
-        bindText(this.noteElement, "Save as a Square for Discord!");
-
         this.pleaseWaitElement = createElement("div", "pleaseWait");
         bindText(this.pleaseWaitElement, "Aborting render... please wait...");
 
@@ -70,7 +66,6 @@ export class Renderer extends ClosableDialog {
             this.headerElement,
             this.progressBar,
             this.imageElement,
-            this.noteElement,
             this.pleaseWaitElement,
             this.optionBar,
             this.saveButton

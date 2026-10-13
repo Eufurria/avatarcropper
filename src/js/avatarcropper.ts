@@ -21,6 +21,7 @@ import { Border, GradientInfo } from './borders'
 import { Canvas } from './canvas'
 import { GradientEditButton } from './gradientedit'
 import { bindText, onLangChange, t } from './i18n'
+import { bindDropSweep, dropLogoSvg } from './droplogo'
 
 export interface Settings {
     previewSizes: number[]
@@ -111,7 +112,9 @@ export class AvatarCropper extends Widget {
         this.textOverlay = <HTMLLabelElement>(
             createElement('label', 'bigOverlay')
         )
-        bindText(this.textOverlay, 'Drag a File Here\nOr Click to Select')
+        this.textOverlay.innerHTML = dropLogoSvg + '<span class="dropPrompt"></span>'
+        bindDropSweep()
+        bindText(this.textOverlay.querySelector('.dropPrompt'), 'Drag a File Here\nOr Click to Select')
         this.textOverlay.style.cursor = 'pointer'
         this.textOverlay.style.textAlign = 'center'
         this.textOverlay.setAttribute('for', 'openInput')

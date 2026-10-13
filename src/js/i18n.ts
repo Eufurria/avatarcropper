@@ -4,7 +4,7 @@ const STORAGE_KEY = "lang";
 
 const pt: { [english: string]: string } = {
     "Hosted with 🧡 by": "Alojado com 🧡 por",
-    "Drag a File Here\nOr Click to Select": "Arraste um ficheiro para aqui\nOu clique para selecionar",
+    "Drag a File Here\nOr Click to Select": "Arrasta um ficheiro\nOu clica para selecionar",
     "Drop file": "Largue o ficheiro",
     "Download": "Transferir",
     "Open File...": "Abrir ficheiro...",
@@ -40,8 +40,7 @@ const pt: { [english: string]: string } = {
     "hey so your browser isn't really supported ... things should still work but they will be slower/ugly due to how internet explorer/edge function (They don't conform to web standards). i'd recommend switching to firefox or chrome!! but you don't have to if you don't want to. this is the only time you'll see this message unless u clear ur cache or something. ok bye":
         "epa, o seu navegador não é propriamente suportado... as coisas devem continuar a funcionar, mas serão mais lentas ou menos bonitas por causa da forma como o Internet Explorer e o Edge funcionam (não seguem as normas da web). recomendo mudar para o Firefox ou para o Chrome!! mas não é obrigatório. só vai ver esta mensagem desta vez, a menos que limpe a cache. ok, até já",
     "Rendering...": "A preparar...",
-    "Rendered! Yayy! ❤️": "Pronto! Viva! ❤️",
-    "Save as a Square for Discord!": "Guarde em quadrado para o Discord!",
+    "Rendered! Yayy! ❤️": "Renderizado ! 🧡",
     "Aborting render... please wait...": "A cancelar... aguarde...",
     "Save": "Guardar",
     "Discord Banner": "Banner do Discord",

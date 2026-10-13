@@ -24,7 +24,7 @@ export class ImagePasted extends EventClass {
             e.stopPropagation();
             
             hideElement(overlay);
-            setTransientText(overlay, null);
+            setTransientText(overlay.querySelector(".dropPrompt") || overlay, null);
             overlay.style.zIndex = "";
             
         };

@@ -2,6 +2,10 @@ import { showElement, hideElement } from "./util";
 import { EventClass } from "./eventclass";
 import { setTransientText } from "./i18n";
 
+function promptOf(overlay: HTMLElement): HTMLElement {
+    return overlay.querySelector(".dropPrompt") || overlay;
+}
+
 export class DragDrop extends EventClass {
     constructor(overlay: HTMLElement) {
         super();
@@ -24,7 +28,7 @@ export class DragDrop extends EventClass {
             e.stopPropagation();
 
             showElement(overlay);
-            setTransientText(overlay, "Drop file");
+            setTransientText(promptOf(overlay), "Drop file");
             overlay.style.zIndex = "9999";
         });
 
@@ -34,7 +38,7 @@ export class DragDrop extends EventClass {
 
             if (e.target === overlay) {
                 hideElement(overlay);
-                setTransientText(overlay, null);
+                setTransientText(promptOf(overlay), null);
                 overlay.style.zIndex = "";
                 this.emitEvent("dragleave");
             }
@@ -49,7 +53,7 @@ export class DragDrop extends EventClass {
             }
 
             hideElement(overlay);
-            setTransientText(overlay, null);
+            setTransientText(promptOf(overlay), null);
             overlay.style.zIndex = "";
         });
     }

@@ -73,15 +73,17 @@ body
       span#footerCredit Alojado com 🧡 por
       img.footerLogo(src="img/eufurria-logo.png" alt="Eufurria")
 
-  button#langToggle(type="button" aria-label="Mudar para inglês")
+  button#langToggle(type="button" aria-label="Mudar para inglês" data-next="en")
     span.langFlag(aria-hidden="true")
-      svg.flag-pt(viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" hidden)
+      svg.flag-pt(viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg")
         rect(width="24" height="40" fill="#006600")
         rect(x="24" width="36" height="40" fill="#FF0000")
-        circle(cx="24" cy="20" r="9" fill="none" stroke="#FFCC00" stroke-width="3")
+        circle(cx="24" cy="20" r="8" fill="#FFCC00")
       svg.flag-en(viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg")
         rect(width="60" height="30" fill="#012169")
-        path(d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6")
-        path(d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10")
-        path(d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6")
+        path(d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="8")
+        path(d="M0,0 L60,30" stroke="#C8102E" stroke-width="2.6")
+        path(d="M60,0 L0,30" stroke="#C8102E" stroke-width="2.6")
+        path(d="M26,0 H34 V30 H26 Z M0,11 H60 V19 H0 Z" fill="#ffffff")
+        path(d="M28,0 H32 V30 H28 Z M0,13 H60 V17 H0 Z" fill="#C8102E")
     span.langCode EN
