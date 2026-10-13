@@ -25,7 +25,9 @@ body, .bigOverlay
     height 100%
     font-size 3em
     color white
-    white-space nowrap
+    white-space normal
+    padding 0 24px
+    box-sizing border-box
     display flex
     align-items center
     justify-content center
@@ -315,28 +317,18 @@ body, .bigOverlay
         position absolute
         top 0
         margin-left 12px
+        display flex
+        align-items center
+        gap 8px
 
-    #footerRight
-        position absolute
-        right 0
-        top 0
+        #footerCredit
+            top 0
 
-        & > *
-            margin-right 12px
-
-    #closeFooter
-        cursor pointer
-
-    .linkbox
-        background-color #08090b
-        padding 0 10px
-        max-height 30px
-        border-radius 5px
-        top 5px
-        transition all 0.25s ease
-
-        &:hover
-            background-color #1c2129
+        .footerLogo
+            height 16px
+            width auto
+            top 0
+            flex-shrink 0
 
     .link
         text-decoration none
@@ -471,6 +463,10 @@ body, .bigOverlay
     width 48px
     float right
     background-color #08090b
+
+.menu .item.zoomBar > button.zoomFit
+    width auto
+    padding 0 10px
 
 .menu .item.zoomBar > button:hover, .menu .item > button.zoomBar > button:hover
     background #1c2129
@@ -717,26 +713,52 @@ body, .bigOverlay
         .save
             margin-bottom 8px
 
-@media (max-width 940px)
-    #link-whatsNew
-        display none
+#langToggle
+    position fixed
+    z-index 1100
+    right 16px
+    bottom 56px
+    height 34px
+    padding 0 12px 0 8px
+    margin 0
+    border none
+    border-radius 999px
+    background #ffc345
+    color #12151a
+    font-family Source Sans Pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif
+    font-size 13px
+    font-weight 700
+    letter-spacing 0.04em
+    line-height 1
+    cursor pointer
+    box-shadow 0 2px 10px rgba(0, 0, 0, 0.45)
+    display flex
+    align-items center
+    gap 6px
 
-@media (max-width 770px)
-    #link-discord
-        display none
+    .langFlag
+        width 18px
+        height 12px
+        border-radius 2px
+        overflow hidden
+        display flex
+        flex-shrink 0
+        box-shadow 0 0 0 1px rgba(0, 0, 0, 0.25)
 
-@media (max-width 700px)
-    #link-help
-        display none
+        svg
+            width 18px
+            height 12px
+            display block
 
-@media (max-width 570px)
-    #footerLeft
-        display none
+        svg[hidden]
+            display none
 
-@media (max-width 450px)
-    #footer
-        display none
+    .langCode
+        line-height 1
 
-@media (max-width 375px)
-    #footer
-        display none
+    &:hover
+        background #ffd56a
+
+    &:focus-visible
+        outline 2px solid white
+        outline-offset 2px

@@ -1,3 +1,9 @@
+import { getLang } from "./i18n";
+
+export function privacyText(): string {
+    return getLang() === "pt" ? PRIVACYPOLICY_PT : PRIVACYPOLICY;
+}
+
 export let PRIVACYPOLICY =
     "tl;dr = i use google analytics to see how many people use the site, including how many people use a certain browser, whether people use desktops or phones, etc to help me get an idea of what to focus on when developing/testing the site\n\
 \n\
@@ -39,3 +45,45 @@ We may update this privacy policy from time to time in order to reflect, for exa
 \n\
 CONTACT US\n\
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at songsingfeedback@gmail.com"
+
+const PRIVACYPOLICY_PT =
+    "em resumo = uso o Google Analytics para ver quantas pessoas usam o site, incluindo quantas usam determinado navegador, se estão no computador ou no telemóvel, etc., para ter uma ideia do que privilegiar ao desenvolver e testar o site\n\
+\n\
+a minha fantástica Política de Privacidade\n\
+\n\
+Esta Política de Privacidade descreve como as suas informações pessoais são recolhidas, utilizadas e partilhadas quando visita https://avatarcropper.com/ (o “Site”).\n\
+\n\
+INFORMAÇÕES PESSOAIS QUE RECOLHEMOS\n\
+\n\
+Quando visita o Site, recolhemos automaticamente certas informações sobre o seu dispositivo, incluindo informações sobre o seu navegador e alguns dos cookies instalados no seu dispositivo. Além disso, à medida que navega no Site, recolhemos informações sobre as páginas que vê (no Site), que sites ou termos de pesquisa o encaminharam para o Site e informações sobre a forma como interage com o Site. Chamamos a estas informações recolhidas automaticamente “Informações do dispositivo”.\n\
+\n\
+Recolhemos as Informações do dispositivo com as seguintes tecnologias:\n\
+\n\
+    - “Cookies” são ficheiros de dados colocados no seu dispositivo ou computador e que muitas vezes incluem um identificador único anónimo. Para saber mais sobre cookies e como os desativar, visite http://www.allaboutcookies.org.\n\
+    - “Ficheiros de registo” acompanham as ações no Site e recolhem dados como o tipo de navegador, o fornecedor de acesso à Internet, as páginas de origem e de saída e a data/hora.\n\
+    - “Web beacons”, “tags” e “pixels” são ficheiros eletrónicos usados para registar informações sobre a forma como navega no Site.\n\
+\n\
+COMO USAMOS AS SUAS INFORMAÇÕES PESSOAIS?\n\
+\n\
+gosto apenas de ver quantas pessoas estão no site\n\
+\n\
+PARTILHA DAS SUAS INFORMAÇÕES PESSOAIS\n\
+\n\
+uso o Google Analytics\n\
+pode ler mais sobre como a Google usa as suas Informações pessoais aqui:  https://www.google.com/intl/en/policies/privacy/.  Também pode recusar o Google Analytics aqui:  https://tools.google.com/dlpage/gaoptout.\n\
+\n\
+Por fim, também podemos partilhar as suas Informações pessoais para cumprir leis e regulamentos aplicáveis, para responder a uma intimação, a um mandado de busca ou a outro pedido legal de informação que recebamos, ou para proteger os nossos direitos.\n\
+\n\
+NÃO RASTREAR\n\
+Tenha em atenção que não alteramos as práticas de recolha e utilização de dados do Site quando vemos um sinal de Não Rastrear no seu navegador.\n\
+\n\
+OS SEUS DIREITOS\n\
+Se reside na Europa, tem o direito de aceder às informações pessoais que temos sobre si e de pedir que sejam corrigidas, atualizadas ou eliminadas. Se quiser exercer este direito, contacte-nos através dos dados abaixo.\n\
+\n\
+não sei bem como isso vai funcionar, porque a informação é toda anónima ??\n\
+\n\
+ALTERAÇÕES\n\
+Podemos atualizar esta política de privacidade de tempos a tempos para refletir, por exemplo, mudanças nas nossas práticas ou por outros motivos operacionais, legais ou regulamentares.\n\
+\n\
+CONTACTE-NOS\n\
+Para mais informações sobre as nossas práticas de privacidade, se tiver questões ou se quiser apresentar uma reclamação, contacte-nos por e-mail para songsingfeedback@gmail.com"

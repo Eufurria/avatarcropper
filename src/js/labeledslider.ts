@@ -1,5 +1,6 @@
 import { Widget } from "./widget";
 import { createElement } from "./util";
+import { bindText } from "./i18n";
 
 export class LabelSlider extends Widget {
     private labelElement: HTMLElement;
@@ -12,7 +13,7 @@ export class LabelSlider extends Widget {
         this.createEvent("change");
 
         this.labelElement = createElement("div", "labelSlider-label");
-        this.labelElement.innerText = label;
+        bindText(this.labelElement, label);
         this.labelElement.style.position = "absolute";
 
         this.sliderElement = <HTMLInputElement>createElement("input", "labelSlider-slider");

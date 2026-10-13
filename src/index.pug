@@ -70,16 +70,18 @@ body
 
   #footer
     #footerLeft
-      span  Made with &#x2764;&#xFE0F; by whisperdoll and the Steam.Design Team
+      span#footerCredit Alojado com 🧡 por
+      img.footerLogo(src="img/eufurria-logo.png" alt="Eufurria")
 
-    #footerRight
-      .linkbox
-        a#link-discord.link(href="https://discord.steam.design" target="_blank") Discord
-      .linkbox
-        #link-help.link How to Use This Site
-      .linkbox
-        #link-whatsNew.link What's New
-      .linkbox
-        a#link-feedback.link(href="https://github.com/sapic/avatarcropper" target="_blank") We're Open Source!
-      #closeFooter.linkbox
-        span.link &#x2716;
+  button#langToggle(type="button" aria-label="Mudar para inglês")
+    span.langFlag(aria-hidden="true")
+      svg.flag-pt(viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" hidden)
+        rect(width="24" height="40" fill="#006600")
+        rect(x="24" width="36" height="40" fill="#FF0000")
+        circle(cx="24" cy="20" r="9" fill="none" stroke="#FFCC00" stroke-width="3")
+      svg.flag-en(viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg")
+        rect(width="60" height="30" fill="#012169")
+        path(d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6")
+        path(d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10")
+        path(d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6")
+    span.langCode EN
