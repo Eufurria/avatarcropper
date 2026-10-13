@@ -63,12 +63,9 @@ const pt: { [english: string]: string } = {
     "Tutorial..": "Tutorial",
     "learn more": "saber mais",
     "Hello, you can resize the cropping area by dragging on the \"corners\" of the circle/square.":
-        "Olá, pode redimensionar a área de recorte arrastando os \"cantos\" do círculo ou do quadrado.",
-    "Thank you, this has been the tutorial.": "Obrigado, este foi o tutorial.",
-    "Please leave feedback or donate with the links at the bottom!":
-        "Deixe comentários ou faça um donativo através das ligações no fundo!",
-    "also this site use cookie if u use it u agree to cookie ":
-        "este site também usa cookies; se o utilizar, aceita os cookies ",
+        "Olá, podes redimensionar a área de recorte arrastando nos \"cantos\" do círculo ou do quadrado.",
+    "This site uses cookies. By using it, you accept them.":
+        "Este site utiliza cookies, ao utiliza-lo estás a aceita-las",
     "What's New...": "Novidades...",
     "October 2022": "Outubro de 2022",
     "Sepetmber 2022": "Setembro de 2022",
