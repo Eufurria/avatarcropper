@@ -49,12 +49,9 @@ export class TutorialDialog extends ClosableDialog {
         body.innerHTML =
             t("Hello, you can resize the cropping area by dragging on the \"corners\" of the circle/square.")
             + "<br>"
-            + "<img src='" + require('../images/tut.png') + "' class='image'><br>"
-            + t("Thank you, this has been the tutorial.") + "<br>"
-            + t("Please leave feedback or donate with the links at the bottom!");
-
-        body.innerHTML += "<br><br>" +
-            "<b>" + t("also this site use cookie if u use it u agree to cookie ");
+            + "<img src='" + require('../images/tut.png') + "' class='image'><br><br><b>"
+            + t("This site uses cookies. By using it, you accept them.")
+            + "</b> ";
 
         body.appendChild(learnMore);
 
