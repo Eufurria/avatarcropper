@@ -27,7 +27,7 @@
         "@types/node": "^18.7.14",
         "concurrently": "^7.3.0",
         "copyfiles": "^2.3.0",
-        "cssnano": "^5.1.13",
+        "cssnano": "^9.8.0",
         "parcel": "^2.8.3",
         "parcel-reporter-static-files-copy": "^1.4.0",
         "stylus": "^0.59.0",
